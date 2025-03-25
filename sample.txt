@@ -1,0 +1,74 @@
+height="200px" width="200px"
+
+
+ <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQ59HRY5GT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HQ59HRY5GT');
+</script>
+
+
+        <section>
+            <h2>Latest Reviews</h2>
+            <div class="reviews">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Reviewer" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div>
+                            <h3>Dell XPS 15 (2025)</h3>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>The Dell XPS 15 continues to be the gold standard for premium Windows laptops. The 2025 model brings substantial improvements in performance while maintaining the sleek design we've come to love.</p>
+                        <div class="review-images">
+                            <img src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/black/notebook-xps-15-9530-t-black-gallery-1.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=402&qlt=100,1&resMode=sharp2&size=402,402&chrss=full" alt="Dell XPS 15" style="width: 100%; height: auto; border-radius: 4px; margin-top: 1rem;">
+                        </div>
+                        <a href="https://www.pcmag.com/reviews/dell-xps-15-9530-2023" class="btn">Read Full Review</a>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Reviewer" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div>
+                            <h3>Logitech MX Keys Mini</h3>
+                            <div class="stars">★★★★☆</div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>This compact keyboard delivers a premium typing experience with perfect key travel and stability. The backlighting is well-implemented, and multi-device support makes it versatile for modern setups.</p>
+                        <div class="review-images">
+                            <img src="https://resource.logitech.com/content/dam/logitech/en/products/keyboards/mx-keys-mini/gallery/mx-keys-mini-top-pale-gray-gallery-1.png" alt="Logitech MX Keys Mini" style="width: 100%; height: auto; border-radius: 4px; margin-top: 1rem;">
+                        </div>
+                        <a href="https://www.rtings.com/keyboard/reviews/logitech/mx-keys-mini" class="btn"> Read Full Review</a>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Reviewer" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div>
+                            <h3>MacBook Air M3</h3>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Apple's M3 chip takes the MacBook Air to new heights with incredible performance and battery life that lasts all day. The display is vibrant and the keyboard is a joy to type on.</p>
+                        <div class="review-images">
+                            <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-midnight-config-20230606?wid=820&hei=498&fmt=jpeg&qlt=90&.v=1683842409554" alt="MacBook Air M3" style="width: 100%; height: auto; border-radius: 4px; margin-top: 1rem;">
+                        </div>
+                        <a href="#" class="btn">Read Full Review</a>
+                    </div>
+                </div>
+            </div>
+        </section>

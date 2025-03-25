@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DETALED - Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .main-content {
+            padding: 2rem;
+            background: var(--light);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .recent-activity {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-logout {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>DETA<span style="color: var(--accent)">LED</span></h2>
+            <nav style="margin-top: 2rem;">
+                <ul style="list-style: none;">
+                    <li><a href="#" style="color: white; text-decoration: none; display: block; padding: 0.5rem 0;">Dashboard</a></li>
+                    <li><a href="#" style="color: white; text-decoration: none; display: block; padding: 0.5rem 0;">Analytics</a></li>
+                    </ul>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">
+                <h1>Dashboard</h1>
+                <a href="admin-login.html" class="btn-logout">Logout</a>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Visits</h3>
+                    <p style="font-size: 2rem; font-weight: bold;" id="totalVisits">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Visits</h3>
+                    <p style="font-size: 2rem; font-weight: bold;" id="todayVisits">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Users</h3>
+                    <p style="font-size: 2rem; font-weight: bold;" id="activeUsers">0</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h2>Visit Trends</h2>
+                <div id="visitChart" style="height: 300px; margin-top: 1rem;"></div>
+            </div>
+            
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div id="activityList" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        /* Add after existing styles */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+    
+        .splash-content {
+            text-align: center;
+            color: white;
+            animation: fadeInUp 0.8s ease-out;
+        }
+    
+        .splash-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    
+        .splash-content p {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+    
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    
+    <!-- Add after opening body tag -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <h1>Welcome Admin</h1>
+            <p>DETALED Dashboard</p>
+        </div>
+    </div>
+    
+    <!-- Update the script section -->
+    <script>
+        // Check if admin is logged in
+        if (!localStorage.getItem('adminLoggedIn')) {
+            window.location.href = 'admin-login.html';
+        }
+        
+        // Splash screen handler
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 500);
+        }, 2000);
+        
+        // Load statistics
+        function loadStats() {
+            const visits = JSON.parse(localStorage.getItem('websiteVisits') || '[]');
+            const today = new Date().toDateString();
+            
+            // Update total visits
+            document.getElementById('totalVisits').textContent = visits.length;
+            
+            // Update today's visits
+            const todayVisits = visits.filter(visit => 
+                new Date(visit.date).toDateString() === today
+            ).length;
+            document.getElementById('todayVisits').textContent = todayVisits;
+            
+            // Update active users (unique users in last 24 hours)
+            const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            const activeUsers = new Set(
+                visits.filter(visit => new Date(visit.date) > last24Hours)
+                    .map(visit => visit.user)
+            ).size;
+            document.getElementById('activeUsers').textContent = activeUsers;
+            
+            // Update activity list
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            visits.slice(-5).reverse().forEach(visit => {
+                const date = new Date(visit.date);
+                const activityItem = document.createElement('div');
+                activityItem.style.padding = '0.5rem 0';
+                activityItem.style.borderBottom = '1px solid #eee';
+                
+                // Determine user type and style
+                const isAdmin = visit.user === 'admin';
+                const userStyle = isAdmin ? 'color: #2563eb; font-weight: bold;' : 'color: #64748b;';
+                const userType = isAdmin ? 'Admin' : 'Guest User';
+                
+                activityItem.innerHTML = `
+                    <p><span style="${userStyle}">${userType}</span> visited ${visit.page}</p>
+                    <small style="color: #666;">${date.toLocaleString()}</small>
+                `;
+                activityList.appendChild(activityItem);
+            });
+            
+            // Create simple bar chart
+            const visitChart = document.getElementById('visitChart');
+            visitChart.innerHTML = '';
+            
+            const last7Days = Array.from({length: 7}, (_, i) => {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                return date.toDateString();
+            }).reverse();
+            
+            const chartData = last7Days.map(day => ({
+                day: day,
+                count: visits.filter(visit => new Date(visit.date).toDateString() === day).length
+            }));
+            
+            const maxCount = Math.max(...chartData.map(d => d.count));
+            
+            const chart = document.createElement('div');
+            chart.style.display = 'flex';
+            chart.style.alignItems = 'flex-end';
+            chart.style.height = '100%';
+            chart.style.gap = '8px';
+            
+            chartData.forEach(data => {
+                const bar = document.createElement('div');
+                const height = (data.count / maxCount) * 100;
+                
+                bar.style.flex = '1';
+                bar.style.background = 'var(--primary)';
+                bar.style.height = `${height}%`;
+                bar.style.minHeight = '20px';
+                bar.style.borderRadius = '4px';
+                bar.style.position = 'relative';
+                
+                const label = document.createElement('div');
+                label.style.position = 'absolute';
+                label.style.bottom = '-25px';
+                label.style.left = '0';
+                label.style.right = '0';
+                label.style.textAlign = 'center';
+                label.style.fontSize = '12px';
+                label.textContent = new Date(data.day).toLocaleDateString('en-US', {weekday: 'short'});
+                
+                const value = document.createElement('div');
+                value.style.position = 'absolute';
+                value.style.top = '-20px';
+                value.style.left = '0';
+                value.style.right = '0';
+                value.style.textAlign = 'center';
+                value.style.fontSize = '12px';
+                value.textContent = data.count;
+                
+                bar.appendChild(label);
+                bar.appendChild(value);
+                chart.appendChild(bar);
+            });
+            
+            visitChart.appendChild(chart);
+        }
+        
+        // Load initial stats
+        loadStats();
+        
+        // Refresh stats every minute
+        setInterval(loadStats, 60000);
+    </script>
+</body>
+</html>
